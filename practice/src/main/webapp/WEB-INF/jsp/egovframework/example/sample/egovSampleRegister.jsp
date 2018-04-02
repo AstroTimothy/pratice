@@ -72,7 +72,7 @@
 	        
 	        var param="cmmt_cont= "+cmmt_cont+", cmmt_name= "+cmmt_name+", id= "+id+useYn;
 	       
-	       alert(param);
+	        alert(param);
 	         
 	    });
     });

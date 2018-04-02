@@ -18,6 +18,8 @@
   *
   * Copyright (C) 2009 by MOPAS  All right reserved.
   */
+
+	String contextPath  = request.getContextPath();
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
@@ -68,14 +70,29 @@
 	    	
 	        var cmmt_cont = $("#cmmt_cont").val();
 	        var cmmt_name = $("#cmmt_name").val();
+	        var cmmt_pwd = $("#cmmt_pwd").val();
 	        var id = $("#id").val();
 	        
-	        var param="cmmt_cont= "+cmmt_cont+", cmmt_name= "+cmmt_name+", id= "+id+useYn;
-	       
+	        var url='/practice/cmmt_insert.do';
+	        var param="cmmt_cont="+cmmt_cont+"cmmt_name="+cmmt_name+"id="+id+"cmmt_pwd="+cmmt_pwd;
+	        
 	        alert(param);
-	         
-	    });
-    });
+	        
+// 	        $.ajax({
+// 	        	url: url
+// 	        	, type: "post"
+// 	        	, data: param
+// 	     	   	, success: function(data) {    
+// 					alert(param + " 저장되었습니다.");
+// 	     	   	}
+// 	     	   	, error: function(data) {
+// 					alert('죄송합니다. 잠시 후 다시 시도해주세요.');
+// 	     	    	return false;
+// 	     	    }  
+// 	     	})
+	        
+	    })
+    })
     </script>
     
 </head>
@@ -198,11 +215,14 @@
 
 <!-- 댓글 작성 -->
 <c:if test="${registerFlag == 'modify'}">
-	<form name="cmmtForm" action="practice/cmmt_insert.do" method="post">
-		작성자 	<input type="text" id="cmmt_name" value="" style="width: 100px;"></input>
-		내용	<input type="text" id="cmmt_cont" placeHolder="이곳에 내용을 입력하세요."></input>
-				<input type="button" id="cmmtInsert" value="등록">
-	</form>
+	<div id="cmmtForm">
+		<form name="cmmtForm" action="practice/cmmt_insert.do" method="post">
+				작성자 <input type="text" id="cmmt_name" value=""></input>
+				내용 <input type="text" id="cmmt_cont"></input>
+				비번 <input type="password" id="cmmt_pwd"></input>
+					 <input type="button" id="cmmtInsert" value="등록"></input>
+		</form>
+	</div>
 </c:if>
     
 <!-- 댓글 리스트 -->

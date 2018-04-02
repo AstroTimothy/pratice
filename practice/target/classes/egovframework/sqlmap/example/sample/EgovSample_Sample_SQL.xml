@@ -110,6 +110,7 @@
 		VALUES (
 			#id#
 			, #cmmt_cont#
+			, #cmmt_pwd#
 			, TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH24:MM:SS')
 			, SEQ_E_CMMT_ID.NEXTVAL
 		)

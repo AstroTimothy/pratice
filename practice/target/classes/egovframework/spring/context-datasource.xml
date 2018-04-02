@@ -9,9 +9,16 @@
 		<jdbc:script location= "classpath:/db/sampledb.sql"/>
 	</jdbc:embedded-database>
      
+<!--     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> -->
+<!--         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> -->
+<!--         <property name="url" value="jdbc:oracle:thin:@192.168.0.253:1521:xe"/> -->
+<!--         <property name="username" value="COMSTUDY21"/> -->
+<!--         <property name="password" value="COMSTUDY21"/> -->
+<!--     </bean> -->
+    
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-        <property name="url" value="jdbc:oracle:thin:@192.168.0.253:1521:xe"/>
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+        <property name="url" value="jdbc:oracle:thin:@175.197.124.128:1521:XE" />
         <property name="username" value="COMSTUDY21"/>
         <property name="password" value="COMSTUDY21"/>
     </bean>

@@ -16,11 +16,11 @@
 package egovframework.example.sample.web;
 
 import java.util.List;
+import java.util.Map;
 
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
-import egovframework.example.sample.service.CmmtVo;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 /**
@@ -104,15 +105,6 @@ public class EgovSampleController {
 		return "sample/egovSampleList";
 	}
 	
-//	댓글 등록
-	@RequestMapping("/cmmt")
-	public String cmmtWrite(CmmtVo cmmtVo) throws Exception{
-		
-		sampleService.insertCmmt(cmmtVo);
-		
-		return "sample/egovSampleRegister";
-	}
-
 	/**
 	 * 글 등록 화면을 조회한다.
 	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
@@ -123,6 +115,7 @@ public class EgovSampleController {
 	@RequestMapping(value = "/addSample.do", method = RequestMethod.GET)
 	public String addSampleView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		model.addAttribute("sampleVO", new SampleVO());
+		
 		return "sample/egovSampleRegister";
 	}
 

@@ -31,10 +31,12 @@
     
     <!--For Commons Validator Client Side-->
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
     <validator:javascript formName="sampleVO" staticJavascript="false" xhtml="true" cdata="false"/>
     
     <script type="text/javaScript" language="javascript" defer="defer">
-        <!--
+    <!--
         /* 글 목록 화면 function */
         function fn_egov_selectList() {
            	document.detailForm.action = "<c:url value='/egovSampleList.do'/>";
@@ -57,8 +59,24 @@
                 frm.submit();
             }
         }
-        -->
+	-->        
     </script>
+    
+    <script>
+    $(document).ready(function(){
+	    $("#cmmtInsert").click(function(){
+	    	
+	        var cmmt_cont=$("#cmmt_cont").val();
+	        
+	        var param="cmmt_cont="+cmmt_cont;
+	        
+	       
+	       alert("댓글이 등록되었습니다.");
+	         
+	    });
+    });
+    </script>
+    
 </head>
 <body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
 
@@ -174,13 +192,27 @@
     <input type="hidden" name="searchCondition" value="<c:out value='${searchVO.searchCondition}'/>"/>
     <input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
     <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
+    
 </form:form>
 
-<form:form commandName="cmmtVO" action="/cmmt" id="cmmtForm" name="cmmtForm">
-	<form:input path="name" cssClass="essentiality" maxlength="10"/>
-	<form:input path="contents" cssClass="essentiality" />
-	<form:input path="pwd" cssClass="essentiality" maxlength="4"/>
-</form:form>
+<!-- 댓글 작성 -->
+<c:if test="${registerFlag == 'modify'}">
+	<textarea rows="5" cols="80" id="cmmt_cont" placeholder="댓글을 작성해주세요"></textarea>
+        <br>
+    <button type="button" id="cmmtInsert"> 댓글 작성 </button>
+</c:if>
+    
+<!-- 댓글 리스트 -->
+    <table id="cmmtList">
+    	<c:forEach var="result" items="${resultList}" varStatus="status">
+	    	<tr>
+	    		<td class="listtd"><c:out value="${result.cmmt_name}"/>&nbsp;</td>
+	    		<td class="listtd"><c:out value="${result.cmmt_contents}"/>&nbsp;</td>
+	    		<td class="listtd"><c:out value="${result.cmmt_wTime}"/>&nbsp;</td>
+	    	</tr>
+		</c:forEach>
+    </table>
+    
 
 </body>
 </html>

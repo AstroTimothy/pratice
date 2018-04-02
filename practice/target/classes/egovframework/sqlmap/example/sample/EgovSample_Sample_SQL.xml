@@ -5,7 +5,6 @@
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
-	<typeAlias  alias="cmmtVo" type="egovframework.example.sample.service.CmmtVo"/>
 
 	<resultMap id="sample" class="egovframework.example.sample.service.SampleVO">
 		<result property="id" column="id"/>
@@ -55,8 +54,12 @@
     <select id="sampleDAO.selectSample" resultMap="sample">
         <![CDATA[
             SELECT
-                ID, NAME, DESCRIPTION, USE_YN, REG_USER
-            FROM SAMPLE 
+                ID
+                , NAME
+                , DESCRIPTION
+                , USE_YN
+                , REG_USER
+			FROM SAMPLE
             WHERE ID=#id#
         ]]>
     </select>
@@ -96,56 +99,21 @@
 			</isEqual>
 	</select>
 	
-	<resultMap id="sampleCmmt" class="egovframework.example.sample.service.CmmtVo">
-		<result property="id" 		column="id"/>
-		<result property="name" 	column="name"/>
-		<result property="contents" column="contents"/>
-		<result property="pwd"		column="pwd"/>
-		<result property="wTime"	column="wTime"/>
-	</resultMap>
-
-	<!-- 댓글 등록 -->
 	<insert id="sampleDAO.insertCmmt">
-
-		INSERT INTO E_CMMT
-		( ID
-		, NAME
-		, CONTENTS
-		, PWD
-		, WTIME )
-		VALUES
-		( #id#
-		, #name#
-		, #contents#
-		, #pwd#
-		, TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH:MI:SSFF') )
-
+		INSERT INTO E_CMMT (
+			ID
+			, CMMT_CONTENTS
+			, CMMT_PWD
+			, CMMT_WTIME
+			, CMMT_ID
+		)
+		VALUES (
+			#id#
+			, #cmmt_cont#
+			, TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH24:MM:SS')
+			, SEQ_E_CMMT_ID.NEXTVAL
+		)
 	</insert>
-	
-<!-- 	댓글 조회 -->
-	<select id="sampleDAO.selectCmmt" resultMap="sampleCmmt">
-		SELECT e.NAME, e.CONTENTS, e.WTIME
-		FROM E_CMMT e
-	</select>
 
-	<!-- 댓글 수정 -->
-	<update id="sampleDAO.updateCmmt">
-
-		UPDATE E_CMMT
-		SET CONTENTS = #contents#
-			, WTIME = TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH:MI:SSFF')
-		WHERE ID = #id#
-			AND PWD = #pwd#
-
-	</update>
-
-	<!-- 댓글 삭제 -->
-	<delete id="sampleDAO.deleteCmmt">
-
-		DELETE FROM E_CMMT
-		WHERE ID=#id#
-			AND PWD=#pwd#
-
-	</delete>
 
 </sqlMap>

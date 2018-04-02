@@ -53,6 +53,7 @@ public class SampleVO extends SampleDefaultVO {
 	/** 비밀번호 */
 	private String password;
 
+	
 	public String getPassword() {
 		return password;
 	}

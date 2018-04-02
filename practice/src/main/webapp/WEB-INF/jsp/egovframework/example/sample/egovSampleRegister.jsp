@@ -66,12 +66,13 @@
     $(document).ready(function(){
 	    $("#cmmtInsert").click(function(){
 	    	
-	        var cmmt_cont=$("#cmmt_cont").val();
+	        var cmmt_cont = $("#cmmt_cont").val();
+	        var cmmt_name = $("#cmmt_name").val();
+	        var id = $("#id").val();
 	        
-	        var param="cmmt_cont="+cmmt_cont;
-	        
+	        var param="cmmt_cont= "+cmmt_cont+", cmmt_name= "+cmmt_name+", id= "+id+useYn;
 	       
-	       alert("댓글이 등록되었습니다.");
+	       alert(param);
 	         
 	    });
     });
@@ -197,9 +198,11 @@
 
 <!-- 댓글 작성 -->
 <c:if test="${registerFlag == 'modify'}">
-	<textarea rows="5" cols="80" id="cmmt_cont" placeholder="댓글을 작성해주세요"></textarea>
-        <br>
-    <button type="button" id="cmmtInsert"> 댓글 작성 </button>
+	<form name="cmmtForm" action="practice/cmmt_insert.do" method="post">
+		작성자 	<input type="text" id="cmmt_name" value="" style="width: 100px;"></input>
+		내용	<input type="text" id="cmmt_cont" placeHolder="이곳에 내용을 입력하세요."></input>
+				<input type="button" id="cmmtInsert" value="등록">
+	</form>
 </c:if>
     
 <!-- 댓글 리스트 -->

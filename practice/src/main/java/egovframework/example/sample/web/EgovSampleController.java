@@ -20,6 +20,7 @@ import java.util.List;
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
+import egovframework.example.sample.service.CmmtVo;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -101,6 +102,15 @@ public class EgovSampleController {
 		model.addAttribute("paginationInfo", paginationInfo);
 
 		return "sample/egovSampleList";
+	}
+	
+//	댓글 등록
+	@RequestMapping("/cmmt")
+	public String cmmtWrite(CmmtVo cmmtVo) throws Exception{
+		
+		sampleService.insertCmmt(cmmtVo);
+		
+		return "sample/egovSampleRegister";
 	}
 
 	/**

@@ -83,4 +83,6 @@ public interface EgovSampleService {
 	 */
 	int selectSampleListTotCnt(SampleDefaultVO searchVO);
 
+	String insertCmmt(CmmtVo cmmtVo) throws Exception;
+
 }

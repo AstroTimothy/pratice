@@ -175,5 +175,12 @@
     <input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
     <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
 </form:form>
+
+<form:form commandName="cmmtVO" action="/cmmt" id="cmmtForm" name="cmmtForm">
+	<form:input path="name" cssClass="essentiality" maxlength="10"/>
+	<form:input path="contents" cssClass="essentiality" />
+	<form:input path="pwd" cssClass="essentiality" maxlength="4"/>
+</form:form>
+
 </body>
 </html>

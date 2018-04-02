@@ -17,6 +17,7 @@ package egovframework.example.sample.service.impl;
 
 import java.util.List;
 
+import egovframework.example.sample.service.CmmtVo;
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
@@ -139,6 +140,21 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	@Override
 	public int selectSampleListTotCnt(SampleDefaultVO searchVO) {
 		return sampleDAO.selectSampleListTotCnt(searchVO);
+	}
+	
+ //	댓글 등록
+	@Override
+	public String insertCmmt(CmmtVo cmmtVo) throws Exception {
+		
+		/** ID Generation Service */
+		String id = egovIdGnrService.getNextStringId();
+		cmmtVo.setId(id);
+        
+		LOGGER.debug(cmmtVo.toString());
+		
+		sampleDAO.insertCmmt(cmmtVo);
+		
+		return id;
 	}
 
 }

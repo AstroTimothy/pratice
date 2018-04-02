@@ -17,6 +17,7 @@ package egovframework.example.sample.service.impl;
 
 import java.util.List;
 
+import egovframework.example.sample.service.CmmtVo;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
 
@@ -102,6 +103,23 @@ public class SampleDAO extends EgovAbstractDAO {
 	 */
 	public int selectSampleListTotCnt(SampleDefaultVO searchVO) {
 		return (Integer) select("sampleDAO.selectSampleListTotCnt", searchVO);
+	}
+	
+//	댓글 등록
+	public String insertCmmt(CmmtVo cmmtVo) {
+		return (String) insert("sampleDAO.insertCmmt", cmmtVo);
+	}
+//	댓글 조회
+	public String selectCmmt(CmmtVo cmmtVo) {
+		return (String) insert("sampleDAO.selectCmmt", cmmtVo);
+	}
+//	댓글 수정
+	public String updateCmmt(CmmtVo cmmtVo) {
+		return (String) insert("sampleDAO.updateCmmt", cmmtVo);
+	}
+//	댓글 삭제
+	public String deleteCmmt(CmmtVo cmmtVo) {
+		return (String) insert("sampleDAO.deleteCmmt", cmmtVo);
 	}
 
 }

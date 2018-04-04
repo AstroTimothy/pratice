@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Sample">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+
+	<resultMap id="sample" class="egovframework.example.sample.service.SampleVO">
+		<result property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="description" column="description"/>
+		<result property="description2" column="description2"/>
+		<result property="useYn" column="use_yn"/>
+		<result property="regUser" column="reg_user"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="fileName" column="filename"/>
+		<result property="pw" column="pw"/>
+	</resultMap>
+
+	<insert id="sampleDAO.insertSample">
+		<![CDATA[
+			INSERT INTO SAMPLE 
+				( ID
+				  , NAME
+				  , DESCRIPTION
+				  , DESCRIPTION2
+				  , USE_YN
+				  , REG_USER
+				  , REG_DATE
+				  , FILENAME
+				  , PW )
+			VALUES ( #id#
+				  , #name#
+				  , #description#
+				  , #description2#
+				  , #useYn#
+				  , #regUser#
+				  , SYSDATE
+				  , #fileName#
+				  , #pw# )
+		]]>
+	</insert>
+	
+	<update id="sampleDAO.updateSample">
+		<![CDATA[
+			UPDATE SAMPLE
+			SET ID=#id#
+				, NAME=#name#
+				, DESCRIPTION=#description#
+				, DESCRIPTION2=#description2#
+				, USE_YN=#useYn#
+				, REG_DATE=SYSDATE
+				, FILENAME=#fileName#
+				, PW=#pw#
+			WHERE ID=#id#
+		]]>
+	</update>
+	
+	<delete id="sampleDAO.deleteSample">
+		<![CDATA[
+			DELETE FROM SAMPLE 
+			WHERE ID=#id#
+		]]>
+	</delete>
+    
+    <select id="sampleDAO.selectSample" resultMap="sample">
+        <![CDATA[
+            SELECT
+                ID, NAME, DESCRIPTION, DESCRIPTION2, USE_YN, REG_USER, REG_DATE, FILENAME, PW
+            FROM SAMPLE 
+            WHERE ID=#id#
+        ]]>
+    </select>
+	
+	<select id="sampleDAO.selectSampleList" parameterClass="searchVO" resultClass="egovMap">
+
+			<!--
+			mySQL에서 페이징처리
+			SELECT
+				ID, NAME, DESCRIPTION, USE_YN, REG_USER
+			FROM SAMPLE
+			WHERE 1=1	//1=1은 조건을 넣기 위해 형식적으로 붙인 것
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				ID LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				NAME LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			ORDER BY ID DESC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#
+			-->
+			
+		<!-- Oracle에서 페이징처리 -->				
+		SELECT A.ID, A.NAME, A.DESCRIPTION, A.DESCRIPTION2, A.USE_YN, A.REG_USER, A.REG_DATE, A.PW
+	       FROM (
+		       SELECT  ROWNUM RNUM, T1.*
+			   FROM (
+					SELECT
+						ID, NAME, DESCRIPTION, DESCRIPTION2, USE_YN, REG_USER, TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS REG_DATE, PW, ROWNUM
+					FROM SAMPLE
+					WHERE 1=1
+					<isEqual prepend="AND" property="searchCondition" compareValue="0">
+						ID = #searchKeyword#
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					ORDER BY ID DESC
+				) T1
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage#  AND RNUM > #firstIndex# ]]> 	
+	</select>
+	
+	<select id="sampleDAO.selectSampleListTotCnt" parameterClass="searchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM SAMPLE
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				ID LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				NAME LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+	
+	<select id="sampleDAO.selectSamplePasswordCnt" resultClass="int">
+		SELECT COUNT(*) totcnt
+		FROM SAMPLE
+		WHERE 1=1
+		AND ID=#id#
+		AND REG_USER=#name#		
+	</select>
+	
+	
+	<insert id="sampleDAO.insertCommnet">
+		<![CDATA[
+		
+		
+		INSERT INTO COMMENTS (
+   		CNO, BNO, COMMENTS, 
+   		REG_ID, REG_DATE) 
+		VALUES ( 
+		COMMENT_NO.nextval,
+ 		#id#,
+ 		#comment#,
+ 		'testuser',
+ 		sysdate )
+		]]>
+	</insert>
+	
+	
+	
+	
+	
+	
+	<select id="sampleDAO.selectCommnetList"  resultClass="egovMap">
+
+			SELECT 
+			    CNO, 
+			    BNO, 
+			    COMMENTS, 
+			    REG_ID, 
+			    REG_DATE
+			FROM COMMENTS
+			WHERE 1=1
+				AND BNO = #id#
+				AND REG_YN IS NULL
+			ORDER BY CNO DESC
+			
+			
+			
+	</select>
+	
+	
+	
+	
+
+</sqlMap>

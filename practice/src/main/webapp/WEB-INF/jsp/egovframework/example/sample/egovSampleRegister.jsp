@@ -15,7 +15,6 @@
   *
   * author 실행환경 개발팀
   * since 2009.02.01
-  *
   * Copyright (C) 2009 by MOPAS  All right reserved.
   */
 
@@ -63,32 +62,50 @@
 	-->        
     </script>
     
+    <style>
+    
+		.background {
+			position: absolute;
+			width: 100%;
+			text-align: center;
+		}
+		
+		.layer{ 
+			text-align: center;
+			display:inline-block;
+		}
+		
+		.innerLayer {
+			display:inline-block;
+		}
+    
+    </style>
+    
     <script>
     $(document).ready(function(){
 	    $("#cmmtInsert").click(function(){
 	    	
 	        var cmmt_cont = $("#cmmt_cont").val();
-	        var cmmt_name = $("#cmmt_name").val();
-	        var cmmt_pwd = $("#cmmt_pwd").val();
-	        var id = $("#id").val();
+		        cmmt_name = $("#cmmt_name").val();
+		        cmmt_pwd = $("#cmmt_pwd").val();
+		        id = $("#id").val();
+		        url='/pratice/practice/cmmt_insert.do';
+		        para="id="+id+"cmmt_cont="+cmmt_cont+"cmmt_name="+cmmt_name+"cmmt_pwd="+cmmt_pwd;
 	        
-	        var url='/practice/cmmt_insert.do';
-	        var param="cmmt_cont="+cmmt_cont+"cmmt_name="+cmmt_name+"id="+id+"cmmt_pwd="+cmmt_pwd;
+	      		alert(para);
 	        
-	        alert(param);
-	        
-// 	        $.ajax({
-// 	        	url: url
-// 	        	, type: "post"
-// 	        	, data: param
-// 	     	   	, success: function(data) {    
-// 					alert(param + " 저장되었습니다.");
-// 	     	   	}
-// 	     	   	, error: function(data) {
-// 					alert('죄송합니다. 잠시 후 다시 시도해주세요.');
-// 	     	    	return false;
-// 	     	    }  
-// 	     	})
+	        $.ajax({
+	        	url: url
+	        	, type: 'post'
+	        	, data: para
+	     	   	, success: function(data) {    
+					alert(param + ' 저장되었습니다.');
+	     	   	}
+	     	   	, error: function(data) {
+					alert('죄송합니다. 잠시 후 다시 시도해주세요.');
+	     	    	return false;
+	     	    }  
+	     	})
 	        
 	    })
     })
@@ -96,9 +113,11 @@
     
 </head>
 <body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
+<div class="background">
+<div class="layer">
 
 <form:form commandName="sampleVO" id="detailForm" name="detailForm">
-    <div id="content_pop">
+    <div id="content_pop" class="innerLayer">
     	<!-- 타이틀 -->
     	<div id="title">
     		<ul>
@@ -214,7 +233,7 @@
 
 <!-- 댓글 작성 -->
 <c:if test="${registerFlag == 'modify'}">
-	<div id="cmmtForm">
+	<div id="cmmtForm" class="innerLayer">
 		<form name="cmmtForm" action="practice/cmmt_insert.do" method="post">
 				작성자 <input type="text" id="cmmt_name" value=""></input>
 				내용 <input type="text" id="cmmt_cont"></input>
@@ -225,16 +244,10 @@
 </c:if>
     
 <!-- 댓글 리스트 -->
-    <table id="cmmtList">
-    	<c:forEach var="result" items="${resultList}" varStatus="status">
-	    	<tr>
-	    		<td class="listtd"><c:out value="${result.cmmt_name}"/>&nbsp;</td>
-	    		<td class="listtd"><c:out value="${result.cmmt_contents}"/>&nbsp;</td>
-	    		<td class="listtd"><c:out value="${result.cmmt_wTime}"/>&nbsp;</td>
-	    	</tr>
-		</c:forEach>
-    </table>
-    
-
+    <div id="cmmtList" class="innerLayer">
+    	
+    </div>
+</div>
+</div>
 </body>
 </html>

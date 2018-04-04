@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Cmmt">
+
+	<typeAlias alias="cmmtVO" type="egovframework.example.sample.service.CmmtVO"/>
+
+	<resultMap id="cmmtList" class="cmmtVO">
+		<result property="id" column="id"/>
+		<result property="cmmt_name" column="cmmt_name"/>
+		<result property="cmmt_contents" column="cmmt_contents"/>
+		<result property="cmmt_pwd" column="cmmt_pwd"/>
+		<result property="cmmt_wtime" column="cmmt_wtime"/>
+		<result property="cmmt_id" column="cmmt_id"/>
+	</resultMap>
+
+	<insert id="insertCmmt" parameterClass="cmmtVO">
+		INSERT INTO E_CMMT (
+			ID
+			, CMMT_NAME
+			, CMMT_CONTENTS
+			, CMMT_PWD
+			, CMMT_WTIME
+			, CMMT_ID
+		)
+		VALUES (
+			#id#
+			, #cmmt_name#
+			, #cmmt_contents#
+			, #cmmt_pwd#
+			, TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH24:MM:SS')
+			, SEQ_E_CMMT_ID.NEXTVAL
+		)
+	</insert>
+
+</sqlMap>

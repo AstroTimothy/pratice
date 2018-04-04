@@ -31,7 +31,7 @@
     
     <!--For Commons Validator Client Side-->
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <validator:javascript formName="sampleVO" staticJavascript="false" xhtml="true" cdata="false"/>
     
@@ -83,31 +83,55 @@
     
     <script>
     $(document).ready(function(){
+
+//     	댓글 리스트 실행
+    	cmmtList();
+    	
+    	
+//     	댓글 등록
 	    $("#cmmtInsert").click(function(){
 	    	
-	        var cmmt_cont = $("#cmmt_cont").val();
+	        var cmmt_contents = $("#cmmt_contents").val();
 		        cmmt_name = $("#cmmt_name").val();
 		        cmmt_pwd = $("#cmmt_pwd").val();
 		        id = $("#id").val();
-		        url='/pratice/practice/cmmt_insert.do';
-		        para="id="+id+"cmmt_cont="+cmmt_cont+"cmmt_name="+cmmt_name+"cmmt_pwd="+cmmt_pwd;
-	        
-	      		alert(para);
+		        url="/practice/practice/cmmtInsert.do";
+		        para="id="+id+"&cmmt_contents="+cmmt_contents+"&cmmt_name="+cmmt_name+"&cmmt_pwd="+cmmt_pwd;
 	        
 	        $.ajax({
 	        	url: url
 	        	, type: 'post'
 	        	, data: para
 	     	   	, success: function(data) {    
-					alert(param + ' 저장되었습니다.');
+					alert('댓글 등록 완료');
 	     	   	}
 	     	   	, error: function(data) {
 					alert('죄송합니다. 잠시 후 다시 시도해주세요.');
 	     	    	return false;
 	     	    }  
 	     	})
-	        
+	     	
 	    })
+	    
+	    function cmmtList(){
+			var id = $("#id").val();
+				para = "id="+id;
+				url = "/practice/practice/cmmtList.do"
+				
+			$.ajax({
+				url: url
+				, type: 'post'
+				, data: para
+				, success: function(data){
+					alert(data);
+				}
+				, error: function(data) {
+					alert('죄송합니다. 잠시 후 다시 시도해주세요.');
+	     	    	return false;
+	     	    }  
+			})
+		}
+	    
     })
     </script>
     
@@ -236,7 +260,7 @@
 	<div id="cmmtForm" class="innerLayer">
 		<form name="cmmtForm" action="practice/cmmt_insert.do" method="post">
 				작성자 <input type="text" id="cmmt_name" value=""></input>
-				내용 <input type="text" id="cmmt_cont"></input>
+				내용 <input type="text" id="cmmt_contents"></input>
 				비번 <input type="password" id="cmmt_pwd"></input>
 					 <input type="button" id="cmmtInsert" value="등록"></input>
 		</form>

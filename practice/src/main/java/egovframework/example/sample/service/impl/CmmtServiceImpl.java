@@ -15,6 +15,9 @@
  */
 package egovframework.example.sample.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -25,12 +28,20 @@ import egovframework.example.sample.service.CmmtVO;
 @Service("cmmtService")
 public class CmmtServiceImpl implements CmmtService {
 
-	@Resource(name = "sampleDAO")
-	private SampleDAO sampleDAO;
+	@Resource(name = "cmmtDAO")
+	private CmmtDAO dao;
 	
+//	댓글 등록
 	@Override
 	public String insertCmmt(CmmtVO vo) {
-		return sampleDAO.insertCmmt(vo);
+		return dao.insertCmmt(vo);
+	}
+
+//	댓글 리스트
+	@Override
+	public List<Map<String, String>> cmmtList(CmmtVO vo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

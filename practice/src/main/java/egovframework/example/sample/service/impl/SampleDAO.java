@@ -104,22 +104,4 @@ public class SampleDAO extends EgovAbstractDAO {
 	public int selectSampleListTotCnt(SampleDefaultVO searchVO) {
 		return (Integer) select("sampleDAO.selectSampleListTotCnt", searchVO);
 	}
-	
-//	댓글 등록
-	public String insertCmmt(CmmtVO vo) {
-		return (String) insert("sampleDAO.insertCmmt", vo);
-	}
-//	댓글 조회
-	public String selectCmmt(SampleVO vo) {
-		return (String) insert("sampleDAO.selectCmmt", vo);
-	}
-//	댓글 수정
-	public String updateCmmt(SampleVO vo) {
-		return (String) insert("sampleDAO.updateCmmt", vo);
-	}
-//	댓글 삭제
-	public String deleteCmmt(SampleVO vo) {
-		return (String) insert("sampleDAO.deleteCmmt", vo);
-	}
-
 }

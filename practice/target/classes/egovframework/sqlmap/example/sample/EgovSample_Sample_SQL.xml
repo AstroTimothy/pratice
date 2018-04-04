@@ -98,23 +98,6 @@
 				NAME LIKE '%' || #searchKeyword# || '%'
 			</isEqual>
 	</select>
-	
-	<insert id="sampleDAO.insertCmmt">
-		INSERT INTO E_CMMT (
-			ID
-			, CMMT_CONTENTS
-			, CMMT_PWD
-			, CMMT_WTIME
-			, CMMT_ID
-		)
-		VALUES (
-			#id#
-			, #cmmt_cont#
-			, #cmmt_pwd#
-			, TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH24:MM:SS')
-			, SEQ_E_CMMT_ID.NEXTVAL
-		)
-	</insert>
 
 
 </sqlMap>

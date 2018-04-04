@@ -96,12 +96,12 @@
 		        cmmt_pwd = $("#cmmt_pwd").val();
 		        id = $("#id").val();
 		        url="/practice/practice/cmmtInsert.do";
-		        para="id="+id+"&cmmt_contents="+cmmt_contents+"&cmmt_name="+cmmt_name+"&cmmt_pwd="+cmmt_pwd;
+		        data="id="+id+"&cmmt_contents="+cmmt_contents+"&cmmt_name="+cmmt_name+"&cmmt_pwd="+cmmt_pwd;
 	        
 	        $.ajax({
 	        	url: url
 	        	, type: 'post'
-	        	, data: para
+	        	, data: data
 	     	   	, success: function(data) {    
 					alert('댓글 등록 완료');
 	     	   	}
@@ -115,17 +115,30 @@
 	    
 	    function cmmtList(){
 			var id = $("#id").val();
-				para = "id="+id;
-				url = "/practice/practice/cmmtList.do"
+				data="id="+id;
+				url="/practice/practice/cmmtList.do";
 				
 			$.ajax({
 				url: url
 				, type: 'post'
-				, data: para
-				, success: function(data){
-					alert(data);
+				, data: data
+				, success: function(result){
+					
+					var listTable = "<table border='1'>";
+			          
+					$.each(result.cmmtList, function() {
+						
+						listTable += "<tr>";
+	            		listTable +="<td>내용 : "+cmmtList.CMMT_CONTENTS;
+	                    listTable += "</td>";
+	                    
+	            		
+	            	});
+					listTable += "</table>";
+					$(".cmmtListTable").html(listTable);
+					
 				}
-				, error: function(data) {
+				, error: function(result) {
 					alert('죄송합니다. 잠시 후 다시 시도해주세요.');
 	     	    	return false;
 	     	    }  
@@ -268,8 +281,9 @@
 </c:if>
     
 <!-- 댓글 리스트 -->
-    <div id="cmmtList" class="innerLayer">
-    	
+    <div class="innerLayer">
+    	<div id="cmmtListTable">
+    	</div>
     </div>
 </div>
 </div>

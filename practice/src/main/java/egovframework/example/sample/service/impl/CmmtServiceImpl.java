@@ -40,8 +40,7 @@ public class CmmtServiceImpl implements CmmtService {
 //	댓글 리스트
 	@Override
 	public List<Map<String, String>> cmmtList(CmmtVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.cmmtList(vo);
 	}
 
 }

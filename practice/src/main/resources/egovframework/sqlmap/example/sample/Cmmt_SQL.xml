@@ -6,15 +6,13 @@
 	<typeAlias alias="cmmtVO" type="egovframework.example.sample.service.CmmtVO"/>
 
 	<resultMap id="cmmtList" class="cmmtVO">
-		<result property="id" column="id"/>
-		<result property="cmmt_name" column="cmmt_name"/>
-		<result property="cmmt_contents" column="cmmt_contents"/>
-		<result property="cmmt_pwd" column="cmmt_pwd"/>
-		<result property="cmmt_wtime" column="cmmt_wtime"/>
-		<result property="cmmt_id" column="cmmt_id"/>
+		<result property="cmmt_name" column="CMMT_NAME"/>
+		<result property="cmmt_contents" column="CMMT_CONTENTS"/>
+		<result property="cmmt_wtime" column="CMMT_WTIME"/>
 	</resultMap>
 
-	<insert id="insertCmmt" parameterClass="cmmtVO">
+<!-- 댓글 입력 -->
+	<insert id="insertCmmt">
 		INSERT INTO E_CMMT (
 			ID
 			, CMMT_NAME
@@ -32,5 +30,17 @@
 			, SEQ_E_CMMT_ID.NEXTVAL
 		)
 	</insert>
+
+<!-- 댓글 리스트 -->
+	<select id="cmmtList" parameterClass="cmmtVO" resultMap="cmmtList">
+		SELECT
+		    CMMT_NAME
+		    , CMMT_CONTENTS
+		    , CMMT_WTIME
+		FROM
+		    E_CMMT
+		WHERE
+		    ID = #id#
+	</select>
 
 </sqlMap>

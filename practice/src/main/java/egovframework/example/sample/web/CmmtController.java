@@ -21,6 +21,26 @@ public class CmmtController {
 	@Resource(name="cmmtService")
 	private CmmtService cmmtService;
 
+//  댓글 리스트 출력
+	@RequestMapping(value="/cmmtList.do")
+	@ResponseBody
+	public ModelAndView cmmtList(CmmtVO vo) {
+		
+		List<Map<String, String>> cmmtList = cmmtService.cmmtList(vo);
+		ModelAndView mav = new ModelAndView("jsonView");
+		mav.addObject("cmmtList", cmmtList);
+		
+		return mav;
+	}
+	
+//  수정 댓글 출력
+	@RequestMapping(value="/selectModiCmmt.do")
+	@ResponseBody
+	public List<CmmtVO> selectModiCmmt(CmmtVO vo) {
+		List<CmmtVO> modiCmmt = cmmtService.selectModiCmmt(vo);
+		return modiCmmt;
+	}
+	
 //	댓글 등록
 	@RequestMapping(value="/cmmtInsert.do")
 	@ResponseBody
@@ -39,16 +59,5 @@ public class CmmtController {
 		
 	}
 	
-//  댓글 리스트 출력
-	@RequestMapping(value="/cmmtList.do")
-	@ResponseBody
-	public ModelAndView cmmtList(CmmtVO vo) {
-		
-		List<Map<String, String>> cmmtList = cmmtService.cmmtList(vo);
-		ModelAndView mav = new ModelAndView("jsonView");
-		mav.addObject("cmmtList", cmmtList);
-		
-		return mav;
-	}
 	
 }

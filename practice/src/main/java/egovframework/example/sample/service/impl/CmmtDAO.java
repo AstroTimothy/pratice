@@ -23,5 +23,9 @@ public class CmmtDAO extends EgovAbstractDAO {
 		return update("cmmtDel", vo);
 	}
 
+	public List<CmmtVO> selectModiCmmt(CmmtVO vo) {
+		return (List<CmmtVO>) list("selectModiCmmt", vo);
+	}
+
 	
 }

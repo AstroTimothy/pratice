@@ -49,4 +49,10 @@ public class CmmtServiceImpl implements CmmtService {
 		return dao.cmmtDel(vo);
 	}
 
+//	수정할 댓글 조회
+	@Override
+	public List<CmmtVO> selectModiCmmt(CmmtVO vo) {
+		return dao.selectModiCmmt(vo);
+	}
+
 }

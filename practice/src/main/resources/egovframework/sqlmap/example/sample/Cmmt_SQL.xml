@@ -5,12 +5,19 @@
 
 	<typeAlias alias="cmmtVO" type="egovframework.example.sample.service.CmmtVO"/>
 
+<!-- 	댓글 목록 -->
 	<resultMap id="cmmtListMap" class="cmmtVO">
 		<result property="id" column="ID"/>
 		<result property="cmmt_id" column="CMMT_ID"/>
 		<result property="cmmt_name" column="CMMT_NAME"/>
 		<result property="cmmt_contents" column="CMMT_CONTENTS"/>
 		<result property="cmmt_wtime" column="CMMT_WTIME"/>
+	</resultMap>
+	
+<!-- 	수정할 댓글 조회 -->
+	<resultMap id="modiCmmt" class="cmmtVO">
+		<result property="cmmt_name" column="CMMT_NAME"/>
+		<result property="cmmt_contents" column="CMMT_CONTENTS"/>
 	</resultMap>
 
 <!-- 댓글 입력 -->
@@ -55,5 +62,16 @@
 		SET DEL_YN = 'y'
 		WHERE CMMT_ID = #cmmt_id#
 	</update>
+	
+<!-- 	수정할 댓글 조회 -->
+	<select id="selectModiCmmt" parameterClass="cmmtVO" resultMap="modiCmmt">
+		SELECT
+		    CMMT_NAME
+		    , CMMT_CONTENTS
+		FROM
+		    E_CMMT
+		WHERE
+		    CMMT_ID = #cmmt_id#
+	</select>
 
 </sqlMap>

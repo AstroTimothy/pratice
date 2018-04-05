@@ -14,4 +14,7 @@ public interface CmmtService {
 //	댓글 삭제
 	public int cmmtDel(CmmtVO vo);
 
+//	수정할 댓글 조회
+	public List<CmmtVO> selectModiCmmt(CmmtVO vo);
+
 }

@@ -24,26 +24,22 @@ public class CmmtController {
 //	댓글 등록
 	@RequestMapping(value="/cmmtInsert.do")
 	@ResponseBody
-	public String insertCmmt(CmmtVO vo) throws Exception {
+	public void insertCmmt(CmmtVO vo) throws Exception {
 		
 		cmmtService.insertCmmt(vo);	
 		
-		return "";
 	}
 	
 //  댓글 리스트 출력
 	@RequestMapping(value="/cmmtList.do")
 	@ResponseBody
-	public ModelAndView cmmtList(CmmtVO vo){
+	public ModelAndView cmmtList(CmmtVO vo) {
 		
 		List<Map<String, String>> cmmtList = cmmtService.cmmtList(vo);
-
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mav = new ModelAndView("jsonView");
 		mav.addObject("cmmtList", cmmtList);
 		
 		return mav;
 	}
 	
-	
-
 }

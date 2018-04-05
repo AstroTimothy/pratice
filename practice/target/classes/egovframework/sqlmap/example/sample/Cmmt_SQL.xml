@@ -5,7 +5,9 @@
 
 	<typeAlias alias="cmmtVO" type="egovframework.example.sample.service.CmmtVO"/>
 
-	<resultMap id="cmmtList" class="cmmtVO">
+	<resultMap id="cmmtListMap" class="cmmtVO">
+		<result property="id" column="ID"/>
+		<result property="cmmt_id" column="CMMT_ID"/>
 		<result property="cmmt_name" column="CMMT_NAME"/>
 		<result property="cmmt_contents" column="CMMT_CONTENTS"/>
 		<result property="cmmt_wtime" column="CMMT_WTIME"/>
@@ -32,9 +34,11 @@
 	</insert>
 
 <!-- 댓글 리스트 -->
-	<select id="cmmtList" parameterClass="cmmtVO" resultMap="cmmtList">
+	<select id="cmmtList" parameterClass="cmmtVO" resultMap="cmmtListMap">
 		SELECT
-		    CMMT_NAME
+		    ID
+		    , CMMT_ID
+		    , CMMT_NAME
 		    , CMMT_CONTENTS
 		    , CMMT_WTIME
 		FROM

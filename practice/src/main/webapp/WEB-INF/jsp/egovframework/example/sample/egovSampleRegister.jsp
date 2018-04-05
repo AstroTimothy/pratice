@@ -76,7 +76,11 @@
 		}
 		
 		.innerLayer {
-			display:inline-block;
+			display: inline-block;
+		}
+		
+		table td {
+			padding: 3px;
 		}
     
     </style>
@@ -104,6 +108,7 @@
 	        	, data: data
 	     	   	, success: function(data) {    
 					alert('댓글 등록 완료');
+					cmmtList();
 	     	   	}
 	     	   	, error: function(data) {
 					alert('죄송합니다. 잠시 후 다시 시도해주세요.');
@@ -113,29 +118,43 @@
 	     	
 	    })
 	    
+// 	    댓글 리스트 
 	    function cmmtList(){
 			var id = $("#id").val();
-				data="id="+id;
-				url="/practice/practice/cmmtList.do";
+				url="/practice/practice/cmmtList.do?id="+id;
 				
 			$.ajax({
 				url: url
-				, type: 'post'
-				, data: data
-				, success: function(result){
+				, type: 'get'
+				, async: false
+				, success: function(result) {
 					
-					var listTable = "<table border='1'>";
-			          
-					$.each(result.cmmtList, function() {
+					listTable = '<table width="100%" border="1" cellpadding="0" cellspacing="0" style="bordercolor:#D3E2EC; bordercolordark:#FFFFFF; BORDER-TOP:#C2D0DB 2px solid; BORDER-LEFT:#ffffff 1px solid; BORDER-RIGHT:#ffffff 1px solid; BORDER-BOTTOM:#C2D0DB 1px solid; border-collapse: collapse;">';
+
+					listTable += "<tr>";
+					listTable += "<th>작성자</th>";
+					listTable += "<th>내용</th>";
+					listTable += "<th>작성시간</th>";
+					listTable += "<th></th>";
+					listTable += "</tr>";
+					
+					$.each(result.cmmtList, function(key, value) {
 						
 						listTable += "<tr>";
-	            		listTable +="<td>내용 : "+cmmtList.CMMT_CONTENTS;
-	                    listTable += "</td>";
-	                    
+						listTable += "<td>"+value.cmmt_name;
+						listTable += "</td>";
+						listTable += "<td>"+value.cmmt_contents;
+						listTable += "</td>";
+						listTable += "<td>"+value.cmmt_wtime;
+						listTable += "</td>";
+						listTable += "<td><button onclick='cmmtDelBtn()'>삭제</button></button>";
+						listTable += "</td>";
+						listTable += "</tr>";          		
 	            		
 	            	});
+					
 					listTable += "</table>";
-					$(".cmmtListTable").html(listTable);
+					$("#cmmtListTable").html(listTable);
 					
 				}
 				, error: function(result) {
@@ -143,6 +162,11 @@
 	     	    	return false;
 	     	    }  
 			})
+		}
+		
+// 		삭제 버튼
+	    function cmmtDelBtn() {
+	
 		}
 	    
     })
@@ -271,20 +295,20 @@
 <!-- 댓글 작성 -->
 <c:if test="${registerFlag == 'modify'}">
 	<div id="cmmtForm" class="innerLayer">
+	
 		<form name="cmmtForm" action="practice/cmmt_insert.do" method="post">
 				작성자 <input type="text" id="cmmt_name" value=""></input>
 				내용 <input type="text" id="cmmt_contents"></input>
 				비번 <input type="password" id="cmmt_pwd"></input>
 					 <input type="button" id="cmmtInsert" value="등록"></input>
 		</form>
+		
+<!-- 댓글 리스트 -->
+		<div id="cmmtListTable" style="margin-top:10px;">
+    	</div>
+		
 	</div>
 </c:if>
-    
-<!-- 댓글 리스트 -->
-    <div class="innerLayer">
-    	<div id="cmmtListTable">
-    	</div>
-    </div>
 </div>
 </div>
 </body>

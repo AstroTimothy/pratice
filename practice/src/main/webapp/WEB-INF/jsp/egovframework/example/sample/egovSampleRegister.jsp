@@ -86,21 +86,42 @@
     </style>
     
     <script>
+	
+//	삭제 버튼
+    function cmmtDelBtn(cmmt_id) {
+		var cmmtId = "cmmt_id="+cmmt_id;
+		var url = '/practice/practice/cmmtDel.do?cmmt_id='+cmmt_id;
+		$.ajax({
+			type: 'get'
+			, url: url
+			, async: false
+			, success: function(){
+				alert('댓글이 삭제되었습니다.');
+				location.reload();
+			}
+			, error: function(request, status, error){
+                alert(request);
+                alert(status);
+                alert(error);
+			}
+		});
+	}
+    
+//     페이지 로딩 후 실행
     $(document).ready(function(){
-
+    	
 //     	댓글 리스트 실행
     	cmmtList();
-    	
-    	
+   	
 //     	댓글 등록
 	    $("#cmmtInsert").click(function(){
 	    	
 	        var cmmt_contents = $("#cmmt_contents").val();
-		        cmmt_name = $("#cmmt_name").val();
-		        cmmt_pwd = $("#cmmt_pwd").val();
-		        id = $("#id").val();
-		        url="/practice/practice/cmmtInsert.do";
-		        data="id="+id+"&cmmt_contents="+cmmt_contents+"&cmmt_name="+cmmt_name+"&cmmt_pwd="+cmmt_pwd;
+		    var cmmt_name = $("#cmmt_name").val();
+		    var cmmt_pwd = $("#cmmt_pwd").val();
+		    var id = $("#id").val();
+		    var url="/practice/practice/cmmtInsert.do";
+		    var data="id="+id+"&cmmt_contents="+cmmt_contents+"&cmmt_name="+cmmt_name+"&cmmt_pwd="+cmmt_pwd;
 	        
 	        $.ajax({
 	        	url: url
@@ -114,61 +135,56 @@
 					alert('죄송합니다. 잠시 후 다시 시도해주세요.');
 	     	    	return false;
 	     	    }  
-	     	})
+	     	});
 	     	
 	    })
 	    
 // 	    댓글 리스트 
 	    function cmmtList(){
 			var id = $("#id").val();
-				url="/practice/practice/cmmtList.do?id="+id;
+			var	url="/practice/practice/cmmtList.do?id="+id;
 				
 			$.ajax({
 				url: url
 				, type: 'get'
 				, async: false
 				, success: function(result) {
-					
-					listTable = '<table width="100%" border="1" cellpadding="0" cellspacing="0" style="bordercolor:#D3E2EC; bordercolordark:#FFFFFF; BORDER-TOP:#C2D0DB 2px solid; BORDER-LEFT:#ffffff 1px solid; BORDER-RIGHT:#ffffff 1px solid; BORDER-BOTTOM:#C2D0DB 1px solid; border-collapse: collapse;">';
-
-					listTable += "<tr>";
-					listTable += "<th>작성자</th>";
-					listTable += "<th>내용</th>";
-					listTable += "<th>작성시간</th>";
-					listTable += "<th></th>";
-					listTable += "</tr>";
-					
-					$.each(result.cmmtList, function(key, value) {
 						
+					var listTable = '<table width="100%" border="1" cellpadding="0" cellspacing="0" style="bordercolor:#D3E2EC; bordercolordark:#FFFFFF; BORDER-TOP:#C2D0DB 2px solid; BORDER-LEFT:#ffffff 1px solid; BORDER-RIGHT:#ffffff 1px solid; BORDER-BOTTOM:#C2D0DB 1px solid; border-collapse: collapse;">';
+	
 						listTable += "<tr>";
-						listTable += "<td>"+value.cmmt_name;
-						listTable += "</td>";
-						listTable += "<td>"+value.cmmt_contents;
-						listTable += "</td>";
-						listTable += "<td>"+value.cmmt_wtime;
-						listTable += "</td>";
-						listTable += "<td><button onclick='cmmtDelBtn()'>삭제</button></button>";
-						listTable += "</td>";
-						listTable += "</tr>";          		
-	            		
-	            	});
-					
-					listTable += "</table>";
-					$("#cmmtListTable").html(listTable);
-					
+						listTable += "<th>작성자</th>";
+						listTable += "<th>내용</th>";
+						listTable += "<th>작성시간</th>";
+						listTable += "<th></th>";
+						listTable += "</tr>";
+						
+						$.each(result.cmmtList, function(key, value) {
+							
+							listTable += "<tr>";
+							listTable += "<td>"+value.cmmt_name;
+							listTable += "</td>";
+							listTable += "<td>"+value.cmmt_contents;
+							listTable += "</td>";
+							listTable += "<td>"+value.cmmt_wtime;
+							listTable += "</td>";
+							listTable += "<td><button onclick='cmmtDelBtn("+value.cmmt_id+")'>삭제</button>";
+							listTable += "</td>";
+							listTable += "</tr>";          		
+		            		
+		            	});
+						
+						listTable += "</table>";
+						$("#cmmtListTable").html(listTable);
+
 				}
 				, error: function(result) {
 					alert('죄송합니다. 잠시 후 다시 시도해주세요.');
 	     	    	return false;
 	     	    }  
-			})
+			});
 		}
-		
-// 		삭제 버튼
-	    function cmmtDelBtn() {
-	
-		}
-	    
+
     })
     </script>
     

@@ -19,5 +19,9 @@ public class CmmtDAO extends EgovAbstractDAO {
 		return (List<Map<String, String>>) list("cmmtList", vo);
 	}
 
+	public int cmmtDel(CmmtVO vo) {
+		return update("cmmtDel", vo);
+	}
+
 	
 }

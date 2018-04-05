@@ -105,8 +105,6 @@
     
     function deleteReply(bno){
     
-    	   	 
-         
          var param="id="+bno;
          $.ajax({                
              type: "get",
@@ -149,11 +147,7 @@
                     output += "</td>";
             		output += "</tr>";
                     
-            		
-            		
-
             	});
-
 				
 				output += "</table>";
 				$(".commentList").html(output);

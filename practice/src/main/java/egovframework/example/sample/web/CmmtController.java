@@ -30,6 +30,15 @@ public class CmmtController {
 		
 	}
 	
+//	댓글 삭제
+	@RequestMapping(value="/cmmtDel.do")
+	@ResponseBody
+	public void cmmtDel(CmmtVO vo) throws Exception {
+		
+		cmmtService.cmmtDel(vo);	
+		
+	}
+	
 //  댓글 리스트 출력
 	@RequestMapping(value="/cmmtList.do")
 	@ResponseBody

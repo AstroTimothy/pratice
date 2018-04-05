@@ -45,6 +45,15 @@
 		    E_CMMT
 		WHERE
 		    ID = #id#
+		    AND DEL_YN = 'n'
+		ORDER BY CMMT_WTIME DESC
 	</select>
+	
+<!-- 	댓글 삭제 -->
+	<update id="cmmtDel">
+		UPDATE E_CMMT 
+		SET DEL_YN = 'y'
+		WHERE CMMT_ID = #cmmt_id#
+	</update>
 
 </sqlMap>

@@ -11,4 +11,7 @@ public interface CmmtService {
 //	댓글 리스트
 	public List<Map<String, String>> cmmtList(CmmtVO vo);
 
+//	댓글 삭제
+	public int cmmtDel(CmmtVO vo);
+
 }

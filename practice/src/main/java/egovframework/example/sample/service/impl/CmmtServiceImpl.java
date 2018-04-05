@@ -43,4 +43,10 @@ public class CmmtServiceImpl implements CmmtService {
 		return dao.cmmtList(vo);
 	}
 
+//	댓글 삭제
+	@Override
+	public int cmmtDel(CmmtVO vo) {
+		return dao.cmmtDel(vo);
+	}
+
 }

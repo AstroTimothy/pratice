@@ -51,7 +51,7 @@ public class CmmtServiceImpl implements CmmtService {
 
 //	수정할 댓글 조회
 	@Override
-	public List<CmmtVO> selectModiCmmt(CmmtVO vo) {
+	public List<Map<String, String>> selectModiCmmt(CmmtVO vo) {
 		return dao.selectModiCmmt(vo);
 	}
 

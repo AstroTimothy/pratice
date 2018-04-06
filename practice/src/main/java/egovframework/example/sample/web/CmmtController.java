@@ -36,9 +36,13 @@ public class CmmtController {
 //  수정 댓글 출력
 	@RequestMapping(value="/selectModiCmmt.do")
 	@ResponseBody
-	public List<CmmtVO> selectModiCmmt(CmmtVO vo) {
-		List<CmmtVO> modiCmmt = cmmtService.selectModiCmmt(vo);
-		return modiCmmt;
+	public ModelAndView selectModiCmmt(CmmtVO vo) {
+			
+		List<Map<String, String>> cmmtModi = cmmtService.selectModiCmmt(vo);
+		ModelAndView mav = new ModelAndView("jsonView");
+		mav.addObject("cmmtModi", cmmtModi);
+		
+		return mav;
 	}
 	
 //	댓글 등록
@@ -59,5 +63,18 @@ public class CmmtController {
 		
 	}
 	
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -15,6 +15,6 @@ public interface CmmtService {
 	public int cmmtDel(CmmtVO vo);
 
 //	수정할 댓글 조회
-	public List<CmmtVO> selectModiCmmt(CmmtVO vo);
+	public List<Map<String, String>> selectModiCmmt(CmmtVO vo);
 
 }

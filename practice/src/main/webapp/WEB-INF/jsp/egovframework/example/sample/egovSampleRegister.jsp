@@ -89,8 +89,8 @@
 	
 //	삭제 버튼
     function cmmtDelBtn(cmmt_id) {
-		var cmmtId = "cmmt_id="+cmmt_id;
-		var url = '/practice/practice/cmmtDel.do?cmmt_id='+cmmt_id;
+		var cmmtId = "cmmt_id="+cmmt_id
+			, url = '/practice/practice/cmmtDel.do?cmmt_id='+cmmt_id;
 		$.ajax({
 			type: 'get'
 			, url: url
@@ -116,24 +116,28 @@
 			type: 'get'
 			, url: url
 			, async: false
-			, success: function(){
-				alert("성공");
+			, success: function(result) {
+					
+	//		 		댓글 수정 폼
+					var insertFormTable = '<form name="cmmtModi" action="practice/cmmt_Modify.do" method="post">';
+					
+					$.each(result.cmmtModi, function(key, value) {
+	
+							insertFormTable += '작성자 <input type="text" id="cmmt_name" value="'+value.cmmt_name+'"></input>';
+							insertFormTable += '내용 <input type="text" id="cmmt_contents" value="'+value.cmmt_contents+'"></input>';
+							insertFormTable += '비번 <input type="password" id="cmmt_pwd"></input>';
+							insertFormTable += '<input type="button" id="cmmtModify" value="수정"></input>';
+							insertFormTable += '</form>';
+								
+					})
+					$("#cmmtInsertForm").html(insertFormTable);
+
 			}
-			, error: function(result){
+			, error: function(result) {
 				alert('죄송합니다. 잠시 후 다시 시도해주세요.');
      	    	return false;
-			}
+     	    }  
 		});
-		
-// 		댓글 수정 폼
-		var insertFormTable = '<form name="cmmtModi" action="practice/cmmt_Modify.do" method="post">';
-			insertFormTable += '작성자 <input type="text" id="cmmt_name" value=""></input>';
-			insertFormTable += '내용 <input type="text" id="cmmt_contents"></input>';
-			insertFormTable += '비번 <input type="password" id="cmmt_pwd"></input>';
-			insertFormTable += '<input type="button" id="cmmtModify" value="수정"></input>';
-			insertFormTable += '</form>';
-				
-		$("#cmmtInsertForm").html(insertFormTable);
 		
 	}
 
@@ -146,12 +150,12 @@
 //     	댓글 등록
 	    $("#cmmtInsert").click(function(){
 	    	
-	        var cmmt_contents = $("#cmmt_contents").val();
-		    var cmmt_name = $("#cmmt_name").val();
-		    var cmmt_pwd = $("#cmmt_pwd").val();
-		    var id = $("#id").val();
-		    var url="/practice/practice/cmmtInsert.do";
-		    var data="id="+id+"&cmmt_contents="+cmmt_contents+"&cmmt_name="+cmmt_name+"&cmmt_pwd="+cmmt_pwd;
+	        var cmmt_contents = $("#cmmt_contents").val()
+			    , cmmt_name = $("#cmmt_name").val()
+			    , cmmt_pwd = $("#cmmt_pwd").val()
+			    , id = $("#id").val()
+			    , url="/practice/practice/cmmtInsert.do"
+			    , data="id="+id+"&cmmt_contents="+cmmt_contents+"&cmmt_name="+cmmt_name+"&cmmt_pwd="+cmmt_pwd;
 	        
 	        $.ajax({
 	        	url: url
@@ -171,8 +175,8 @@
 	    
 // 	    댓글 리스트 
 	    function cmmtList(){
-			var id = $("#id").val();
-			var	url="/practice/practice/cmmtList.do?id="+id;
+			var id = $("#id").val()
+				, url="/practice/practice/cmmtList.do?id="+id;
 				
 			$.ajax({
 				url: url

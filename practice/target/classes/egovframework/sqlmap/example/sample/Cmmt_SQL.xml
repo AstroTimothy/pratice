@@ -66,7 +66,7 @@
 <!-- 	수정할 댓글 조회 -->
 	<select id="selectModiCmmt" parameterClass="cmmtVO" resultMap="modiCmmt">
 		SELECT
-		    CMMT_NAME
+			CMMT_NAME
 		    , CMMT_CONTENTS
 		FROM
 		    E_CMMT

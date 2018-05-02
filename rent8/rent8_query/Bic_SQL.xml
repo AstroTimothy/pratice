@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="rent8_bic">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<sql id="allBic">
+		SELECT 
+		    BC.BIC_ID
+		    , BC.BRN_ID
+		    , BC.BIC_GRD
+		    , BC.RNT_STAT
+		    , BR.BRN_NAME
+		FROM RENT8_BICYCLE BC, RENT8_BRN BR
+		WHERE BC.DEL_YN = 'n'
+			AND BR.DEL_YN = 'n'
+		    AND BC.BRN_ID = BR.BRN_ID
+	</sql>
+	
+	<!-- 자전거 한 페이지 -->
+	<select id="bicList" resultClass="egovMap">
+		SELECT 
+		    T1.BIC_ID
+		    , T1.BRN_ID
+		    , T1.BIC_GRD
+		    , T1.BRN_NAME
+		    , T1.RNT_STAT
+		FROM (
+		       SELECT 
+		            AB.BIC_ID
+		            , AB.BRN_ID
+		            , AB.BIC_GRD
+		            , AB.BRN_NAME
+		            , AB.RNT_STAT
+		            , ROW_NUMBER() OVER(ORDER BY AB.BIC_ID DESC) RNUM 
+		        FROM (<include refid="allBic"/>) AB
+		        WHERE 1=1
+			     	<isNotNull prepend="AND" property="rntStat">
+						AB.RNT_STAT = #rntStat#
+					</isNotNull>
+					<isNotNull prepend="AND" property="brnName">
+						AB.BRN_NAME LIKE '%' || #brnName# || '%'
+					</isNotNull>
+					<isNotNull prepend="AND" property="bicGrd">
+						AB.BIC_GRD = #bicGrd#
+					</isNotNull>
+		    ) T1
+		WHERE T1.RNUM BETWEEN $range$
+	</select>
+	
+	<!-- 자전거 목록 수 -->
+	<select id="bicCnt" resultClass="int">
+		SELECT COUNT(T1.BIC_ID)	
+		FROM (
+		        SELECT 
+		            AB.BIC_ID
+		        FROM (<include refid="allBic"/>) AB
+		        WHERE 1=1
+			     	<isNotNull prepend="AND" property="rntStat">
+						AB.RNT_STAT = #rntStat#
+					</isNotNull>
+					<isNotNull prepend="AND" property="brnName">
+						AB.BRN_NAME LIKE '%' || #brnName# || '%'
+					</isNotNull>
+					<isNotNull prepend="AND" property="bicGrd">
+						AB.BIC_GRD = #bicGrd#
+					</isNotNull>
+		    ) T1
+	</select>
+	
+	<!-- 대여 자전거 한 페이지 -->
+	<select id="rentBicList" resultClass="egovMap">
+		SELECT 
+		    T1.BIC_ID
+		    , T1.BRN_ID
+		    , T1.BIC_GRD
+		    , T1.BRN_NAME
+		FROM (
+		       SELECT 
+		            AB.BIC_ID
+		            , AB.BRN_ID
+		            , AB.BIC_GRD
+		            , AB.BRN_NAME
+		            , ROW_NUMBER() OVER(ORDER BY AB.BIC_ID DESC) RNUM 
+		        FROM (<include refid="allBic"/>) AB
+		        WHERE AB.RNT_STAT = 'n'
+					<isNotNull prepend="AND" property="brnId">
+						AB.BIC_ID = #brnId#
+					</isNotNull>
+					<isNotNull prepend="AND" property="bicGrd">
+						AB.BIC_GRD = #bicGrd#
+					</isNotNull>
+		    ) T1
+		WHERE T1.RNUM BETWEEN $range$
+	</select>
+	
+	<!-- 대여 자전거 목록 수 -->
+	<select id="rentBicCnt" resultClass="int">
+		SELECT COUNT(T1.BIC_ID)	
+		FROM (
+		        SELECT 
+		            AB.BIC_ID
+		        FROM (<include refid="allBic"/>) AB
+		        WHERE AB.RNT_STAT = 'n'
+					<isNotNull prepend="AND" property="brnId">
+						AB.BIC_ID = #brnId#
+					</isNotNull>
+					<isNotNull prepend="AND" property="bicGrd">
+						AB.BIC_GRD = #bicGrd#
+					</isNotNull>
+		    ) T1
+	</select>
+	
+	<!-- 지점 Select List -->
+	<select id="brnLocSlct" resultClass="egovMap">
+		SELECT
+			BRN_ID
+			, BRN_NAME
+		FROM
+			RENT8_BRN
+		WHERE 1=1
+			AND DEL_YN = 'n'
+	</select>
+	
+	<!-- 자전거 등록 -->
+	<insert id="addBic">
+		INSERT INTO RENT8_BICYCLE (
+		    BIC_ID
+			, BIC_GRD
+			, BRN_ID
+		    )
+		VALUES(
+		    SEQ_RENT8_BYCYCLE_ID.NEXTVAL
+		    , #bicGrd#
+		    , #brnId#
+		)	
+	</insert>
+	
+	<!-- 자전거 삭제 -->
+	<update id="delBic">
+		UPDATE RENT8_BICYCLE
+		SET DEL_YN = 'y'
+		WHERE BIC_ID = #bicId#
+	</update>
+	
+</sqlMap>

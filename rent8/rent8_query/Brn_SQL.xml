@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="rent8_brn">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<!-- 지점 목록 -->
+	<sql id="brnSelect">
+		SELECT 
+	        BRN_ID brnId
+	        , BRN_NAME brnName
+	        , TO_CHAR(T1.ADD_DT, 'YY/MM/DD') AS addDt
+	        , BLC.ADDRESS brnLoc
+	        , FN_GET_grade_8RENT(T1.BRN_ID,'h')as h_grd
+	        , FN_GET_grade_8RENT(T1.BRN_ID,'m')as m_grd
+	        , FN_GET_grade_8RENT(T1.BRN_ID,'l')as l_grd
+	    FROM 
+		    RENT8_BRN T1
+		    , BRN_LOC_CODE BLC
+	    WHERE 1=1
+	        AND T1.BRN_LOC = BLC.LOC_CODE
+	        AND T1.DEL_YN = 'n'
+	</sql>
+	
+	<!-- 지점 한 페이지 -->
+	<select id="brnList" resultClass="egovMap">
+		SELECT
+			T1.brnId    
+			, T1.brnName
+			, T1.addDt  
+			, T1.brnLoc 
+			, T1.h_grd  
+			, T1.m_grd  
+			, T1.l_grd  
+		FROM (
+				SELECT	
+					BS.brnId
+					, BS.brnName
+					, BS.addDt
+					, BS.brnLoc
+					, BS.h_grd
+					, BS.m_grd
+					, BS.l_grd
+					, ROW_NUMBER() OVER(ORDER BY BS.addDt DESC) RNUM     
+			    FROM (<include refid="brnSelect"/>) BS
+			    WHERE 1=1
+			    	<isNotNull prepend="AND" property="brnName">
+						BS.brnName LIKE '%' || #brnName# || '%'
+					</isNotNull>
+			) T1
+		WHERE T1.RNUM BETWEEN $range$
+	</select>
+	
+	<!-- 지점 목록 수 -->
+	<select id="brnCnt" resultClass="int">
+		SELECT COUNT(T1.brnId)	
+		FROM (
+				SELECT	
+					BS.brnId
+					, BS.brnName
+					, BS.addDt
+					, BS.brnLoc
+					, BS.h_grd
+					, BS.m_grd
+					, BS.l_grd
+					, ROW_NUMBER() OVER(ORDER BY BS.addDt DESC) RNUM     
+				FROM (<include refid="brnSelect"/>) BS
+				WHERE 1=1
+					<isNotNull prepend="AND" property="brnName">
+						BS.brnName LIKE '%' || #brnName# || '%'
+					</isNotNull>
+			) T1
+	</select>
+	
+	<!-- 지점 등록 -->
+	<insert id="addBrn">
+		INSERT INTO RENT8_BRN (
+		    BRN_ID
+		    , BRN_LOC
+		    , BRN_NAME)
+		VALUES(
+		    SEQ_RENT8_BRN_ID.NEXTVAL
+		    , #brnLoc#
+		    , #brnName#
+		)	
+	</insert>
+	
+	<!-- 지점 삭제 -->
+	<update id="delBrn">
+		UPDATE RENT8_BRN
+		SET DEL_YN = 'y'
+		WHERE BRN_ID = #brnId#
+	</update>
+	
+	<!-- 동 선택 목록 -->
+	<select id="dongSlctList" resultClass="egovMap">
+		SELECT
+		    DONG
+		    , DONG_NM
+		FROM 
+		    RENT8_BRN_LOC 
+		WHERE 1=1
+		    AND GOO = #goo#
+	</select>
+	
+</sqlMap>

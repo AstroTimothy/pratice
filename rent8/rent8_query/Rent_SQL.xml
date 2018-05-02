@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="rent8_rent">
+
+	<insert id="rent8">
+		INSERT INTO RENT8_RENT (
+		    RNT_ID
+		    , BIC_ID
+		    , MEM_ID
+		    , RNT_BRN
+		    , RNT_TIME
+		)
+		VALUES (
+		    SEQ_RENT8_RENT_ID.NEXTVAL()
+		    , #bicId#
+		    , #memId#
+		    , #rntBrn#
+		    , SYSDATE
+		)
+	</insert>
+	
+</sqlMap>
